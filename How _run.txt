@@ -1,0 +1,79 @@
+Guide: How to Run the Program
+Phase 1: Preparation (One-Time Setup)
+---------------------------------------
+1. Ensure Redis is Running
+You must have a Redis server running locally (usually on port 6379) or accessible via the host specified in your .env file.
+
+2. Verify Project Directory and Dependencies
+Navigate to your project folder (redis-eventhub-bridge/) and ensure all dependencies are installed:
+
+# Navigate to the project directory
+cd /path/to/redis-eventhub-bridge
+
+# Install packages (if you haven't already)
+npm install
+
+3. Confirm .env Settings
+Double-check that your .env file is configured for mocking and points to the correct local Redis instance:
+code
+Env
+# .env file content confirmation
+OUTPUT_TYPE=mock
+REDIS_HOST=127.0.0.1
+REDIS_PORT=6379
+REDIS_CHANNEL=data-stream-channel
+MOCK_OUTPUT_FILE=./output_events.jsonl
+
+
+Phase 2: Starting the Bridge Service (Terminal 1)
+---------------------------------------------------
+Open your first terminal window. This terminal will run the Node.js application that subscribes to Redis.
+Start the program:
+
+node index.js
+Verify the output: You should see console messages confirming successful startup and connection:
+
+--- Redis to Event Hub Bridge (Mock Mode) ---
+[MOCK] Initialized. Writing output to absolute path: C:\...\redis-eventhub-bridge\output_events.jsonl
+[REDIS] Attempting to subscribe to Redis at 127.0.0.1:6379
+[REDIS] Successfully subscribed and listening on channel: data-stream-channel
+Do not close this terminal.
+
+Phase 3: Publishing Messages (Terminal 2)
+------------------------------------------
+Open a second terminal window. You will use the Redis Command Line Interface (redis-cli) here to simulate a publishing application.
+Access the Redis CLI:
+
+redis-cli
+(If your Redis is on a different host/port, use redis-cli -h <host> -p <port>)
+Publish a message: Use the PUBLISH command, matching the REDIS_CHANNEL name (data-stream-channel) defined in your .env.
+
+PUBLISH data-stream-channel '{"request_id": "a1b2c3", "status": "processing"}'
+You can publish this command multiple times with different messages.
+
+
+Phase 4: Verification
+----------------------
+Immediately check the output of your first terminal (Terminal 1 - where node index.js is running).
+Console Verification (Terminal 1): You should see confirmation that the message was received and forwarded:
+
+[BRIDGE] Received message on [data-stream-channel]
+[MOCK SUCCESS] Event written to file.
+
+File Verification (Project Directory): A new file named output_events.jsonl should have appeared in your project root. View its contents using a text editor or the command line:
+
+cat output_events.jsonl
+You should see lines similar to this (one line per message published):
+
+{"source":"RedisBridge","timestamp":"2024-05-01T...Z","channel":"data-stream-channel","data":{"request_id":"a1b2c3","status":"processing"}}
+
+
+Phase 5: Stopping the Program
+-----------------------------
+In Terminal 1, press Ctrl + C.
+The application will execute its graceful shutdown routine:
+
+^C
+[SHUTDOWN] Starting graceful cleanup...
+[MOCK] Closing mock output service.
+[SHUTDOWN] Redis subscriber disconnected.

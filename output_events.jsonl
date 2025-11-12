@@ -1,0 +1,4 @@
+{"source":"RedisBridge","timestamp":"2025-11-11T06:41:21.311Z","channel":"data-stream-channel","data":{"request_id":"a1b2c3","status":"processing"}}
+{"source":"RedisBridge","timestamp":"2025-11-12T01:20:42.906Z","channel":"data-stream-channel","data":{"raw_message":"{\"request_id\": \"ENROL120000000012\", \"status\": \"WIP\", \"data\":{\"A large payload\"}}","format_error":true}}
+{"source":"RedisBridge","timestamp":"2025-11-12T01:23:31.427Z","channel":"data-stream-channel","data":{"raw_message":"{\"request_id\": \"ENROL120000000012\", \"status\": \"WIP\", \"data\":{\"Another large payload\"}}","format_error":true}}
+{"source":"RedisBridge","timestamp":"2025-11-12T01:24:54.799Z","channel":"data-stream-channel","data":{"request_id":"ENROL120000000012","status":"WIP","data":{"payload":"Another large payload"}}}

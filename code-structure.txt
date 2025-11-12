@@ -1,0 +1,8 @@
+redis-eventhub-bridge/
+├── .env
+├── node_modules/
+├── config.js               <-- Configuration management
+├── services/
+│   ├── EventHubMock.js     <-- Mock output service (dependency)
+│   └── RedisBridge.js      <-- Core logic, handles subscription
+└── index.js                <-- Application startup (entry point)
