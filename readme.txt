@@ -19,7 +19,7 @@ npm install
 Set up the environment configuration:
 code
 Bash
-touch .env
+rename .env.example to .env and run the applciation.
 ⚙️ Configuration
 Populate the .env file with your specific environment settings.
 Example .env File
@@ -74,6 +74,9 @@ Bash
 redis-cli
 PUBLISH data-stream-channel '{"user_id": 102, "action": "checkout", "timestamp": "2024-05-01T12:00:00Z"}'
 Verification: Check the contents of the output_events.jsonl file to confirm the event was successfully logged by the mock service.
+
+
+
 B. Production Azure Mode (Deployment)
 This mode requires a working implementation of the Azure Event Hubs client (which would replace EventHubMock.js).
 Update .env to enable production mode and configure Azure credentials.
@@ -98,4 +101,5 @@ Extending to New Destinations
 Thanks to Dependency Injection, adding a new output target (e.g., AWS Kinesis, Kafka, or a simple database log) is straightforward:
 Create a new class (e.g., KafkaProducer.js) that implements the required methods (sendEvent(data) and close()).
 Update config.js and index.js to recognize and instantiate the new client when its OUTPUT_TYPE is selected.
+
 The core RedisBridge.js remains untouched.
