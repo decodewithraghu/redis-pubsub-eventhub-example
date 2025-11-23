@@ -1,23 +1,54 @@
 {
   "name": "redis-pubsub-eventhub-bridge",
-  "version": "1.0.0",
-  "description": "A robust Node.js bridge service to forward messages from Redis Pub/Sub to Azure Event Hubs.",
+  "version": "2.0.0",
+  "description": "A robust, pattern-based Node.js bridge service to forward messages from Redis Pub/Sub to Azure Event Hubs with comprehensive error handling and retry logic.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "LOG_LEVEL=DEBUG node index.js",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:unit": "jest --testPathPattern=test/unit",
+    "test:integration": "jest --testPathPattern=test/integration"
   },
   "keywords": [
     "redis",
     "pubsub",
     "azure",
     "eventhubs",
-    "streaming"
+    "streaming",
+    "design-patterns",
+    "strategy-pattern",
+    "factory-pattern",
+    "dependency-injection"
   ],
   "author": "Raghu Raghavan",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.5",
     "ioredis": "^5.3.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.11"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!node_modules/**",
+      "!coverage/**",
+      "!jest.config.js",
+      "!test/**",
+      "!index.js"
+    ],
+    "testMatch": [
+      "**/test/**/*.test.js"
+    ],
+    "verbose": true
   }
 }
